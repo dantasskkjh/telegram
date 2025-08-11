@@ -3,7 +3,69 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Site com Botão e Pixel TikTok</title>
+<title>Acesso Seguro com Som</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  * { box-sizing: border-box; }
+  body, html {
+    margin:0; padding:0; height:100%;
+    display:flex; justify-content:center; align-items:center;
+    background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    user-select: none;
+    overflow: hidden;
+    text-align: center;
+  }
+  #container {
+    max-width: 600px;
+    padding: 30px;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #container:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(255,255,255,0.3); }
+  h1 {
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 0.4em;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+  p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    margin-bottom: 1em;
+    text-shadow: 0 0 6px rgba(255,255,255,0.5);
+  }
+  #instruction {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: #6a2c91;
+    padding: 12px 18px;
+    border-radius: 30px;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    animation: pulse 2s infinite;
+    user-select: none;
+  }
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.3);
+    }
+    50% {
+      box-shadow: 0 0 25px 10px rgba(255,255,255,0.6);
+    }
+  }
+  #loading {
+    margin-top: 25px;
+    font-size: 1.1rem;
+    color: #ddd;
+    display: none;
+    user-select: none;
+  }
+</style>
 
 <!-- TikTok Pixel Code Start -->
 <script>
@@ -19,65 +81,122 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 </script>
 <!-- TikTok Pixel Code End -->
 
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #4A00E0, #8E2DE2);
-    color: white;
-    margin: 0;
-    padding: 40px;
-    text-align: center;
-  }
-  button {
-    background: #6a2c91;
-    border: none;
-    border-radius: 30px;
-    padding: 16px 40px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #7e3db0;
-  }
-  #msg {
-    margin-top: 25px;
-    font-size: 1.1rem;
-    display: none;
-  }
-</style>
-
 </head>
 <body>
 
-<h1>Bem-vindo ao site!</h1>
-<p>Clique no botão abaixo para continuar:</p>
-
-<button id="btnPixel">Continuar</button>
-
-<div id="msg">Evento do pixel enviado! Obrigado.</div>
+<div id="container" tabindex="0" role="button" aria-label="Clique ou role para continuar">
+  <h1>Para continuar</h1>
+  <p>Por favor, <strong>clique em qualquer lugar</strong>, <strong>role a página</strong> ou <strong>mova o mouse</strong>.</p>
+  <div id="instruction">Clique, role ou mova o mouse para continuar</div>
+  <div id="loading">Carregando...</div>
+</div>
 
 <script>
-  const btn = document.getElementById('btnPixel');
-  const msg = document.getElementById('msg');
+(function() {
+  const container = document.getElementById('container');
+  const instruction = container.querySelector('#instruction');
+  const loading = document.getElementById('loading');
+  const REDIRECT_URL = "https://t.me/+psDVyM-0S75iNTg1"; // Link direto
 
-  btn.addEventListener('click', () => {
+  // Som click embutido em base64 (pequeno beep)
+  const audioClick = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAgD4AAIA+AAABAAgAZGF0YQAAAAA=");
+
+  let redirected = false;
+  let interactionDetected = false;
+  let mouseMoved = false;
+
+  // Bloqueia acesso em desktop
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (!isMobile) {
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Este conteúdo está disponível apenas para dispositivos móveis.</p>';
+    return;
+  }
+
+  // Anti iframe
+  if (window.self !== window.top) {
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Conteúdo bloqueado dentro de iframe.</p>';
+    return;
+  }
+
+  // Função para detectar bots com base em navigator e user-agent (ajustada)
+  function isBot() {
+    const n = navigator;
+    const ua = (n.userAgent || '').toLowerCase();
+
+    const hasPlugins = n.plugins && n.plugins.length > 0;
+    const hasLanguages = n.languages && n.languages.length > 0;
+    const isWebdriver = !!n.webdriver;
+    const isBotUA = /bot|crawl|spider|facebook|google|headless|phantomjs/.test(ua) && !/tiktok/.test(ua);
+
+    if (isWebdriver) return true;
+    if (isBotUA && (!hasPlugins || !hasLanguages)) return true;
+    return false;
+  }
+
+  if (isBot()) {
+    container.style.display = 'none';
+    document.body.innerHTML = '<h1>Acesso negado</h1><p>Seu acesso foi identificado como bot.</p>';
+    return;
+  }
+
+  // Dispara evento TikTok pixel após carregamento
+  function aguardaPixelETrigaEvento(tentativas) {
     if (typeof ttq !== 'undefined' && typeof ttq.track === 'function') {
       ttq.track('AddPaymentInfo');
+    } else if (tentativas < 10) {
+      setTimeout(() => {
+        aguardaPixelETrigaEvento(tentativas + 1);
+      }, 300);
     }
-    msg.style.display = 'block';
-    btn.disabled = true;
-    btn.style.cursor = 'default';
+  }
+
+  setTimeout(() => {
+    aguardaPixelETrigaEvento(0);
+  }, 1000);
+
+  function redirecionar() {
+    if (redirected) return;
+    if (!interactionDetected) return;
+    redirected = true;
+    loading.style.display = 'block';
+    instruction.style.display = 'none';
+    container.style.pointerEvents = 'none';
+
+    // Toca som no clique
+    audioClick.play().catch(() => {});
+
+    // Delay aleatório entre 3s e 4s para dificultar fingerprinting
+    const delay = Math.floor(Math.random() * 1000) + 3000;
+    setTimeout(() => {
+      window.location.href = REDIRECT_URL;
+    }, delay);
+  }
+
+  function onFirstInteraction() {
+    if (interactionDetected) return;
+    interactionDetected = true;
+    redirecionar();
+  }
+
+  window.addEventListener('click', onFirstInteraction);
+  window.addEventListener('scroll', onFirstInteraction);
+  window.addEventListener('keydown', onFirstInteraction);
+  window.addEventListener('mousemove', e => {
+    if (!mouseMoved && (e.movementX !== 0 || e.movementY !== 0)) {
+      mouseMoved = true;
+      onFirstInteraction();
+    }
   });
+
+  setTimeout(() => {
+    if (!interactionDetected && !redirected) {
+      interactionDetected = true;
+      redirecionar();
+    }
+  }, 10000);
+
+})();
 </script>
 
 </body>
 </html>
-
-      
-
-
-
